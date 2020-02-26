@@ -7,11 +7,11 @@ public class Node {
 
     static {
         m = 160;
-        shift = new ArrayList<>(m);
-        shift.set(0, BigInteger.ONE);
+        shift = new ArrayList<>();
+        shift.add(BigInteger.ONE);
         BigInteger TWO = new BigInteger("2", 10);
         for(int i=1; i<m; ++i) {
-            shift.set(i, shift.get(i-1).multiply(TWO));
+            shift.add(shift.get(i-1).multiply(TWO));
         }
     }
 
@@ -21,14 +21,15 @@ public class Node {
     private Node pred;
 
     Node(String nodeName) {
+        System.out.println(nodeName);
         String hash = Util.hash(nodeName);
 
         this.nodeName = nodeName;        
         this.nodeId = new BigInteger(hash, 16);
-        this.fingerTable = new ArrayList<>(m);
-        
+        this.fingerTable = new ArrayList<>();
+
         for(int i=0; i<m; ++i) {
-            fingerTable.set(i, new Finger());
+            fingerTable.add(new Finger());
             fingerTable.get(i).start = nodeId.add(shift.get(i));
         }
         // System.out.println(hash);

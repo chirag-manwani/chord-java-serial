@@ -1,4 +1,3 @@
-import java.math.BigInteger;
 import java.util.ArrayList;
 
 public class Chord {
@@ -14,7 +13,7 @@ public class Chord {
     public void addNode(String nodeName) {
         Node node = new Node(nodeName);
 
-        if(nodeList.size() == 0) {
+        if(nodeList.isEmpty()) {
             node.join(null);
         }
         else {
