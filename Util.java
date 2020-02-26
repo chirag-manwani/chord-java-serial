@@ -19,4 +19,19 @@ public class Util {
             throw new RuntimeException(e);
         }
     }
+
+    public static boolean in(BigInteger n, BigInteger l, BigInteger u) {
+        if(l.compareTo(u) == 0 || l.compareTo(n) == 0 || u.compareTo(n) == 0) {
+            return true;
+        }
+
+        if(l.compareTo(u) > 0) {
+            return !in(n, u, l);
+        }
+
+        if(n.compareTo(l) > 0 && n.compareTo(u) < 0) {
+            return true;
+        }
+        return false;
+    }
 }

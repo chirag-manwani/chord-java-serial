@@ -22,18 +22,34 @@ public class Node {
     public Node findSuccessor() {
         return fingerTable.get(0).node;
     }
-    
-    public Node findSuccessor(int id) {
+
+    public Node findSuccessor(BigInteger id) {
         Node pred = findPredecessor(id);
         return pred.findSuccessor();
     }
 
-    public Node findPredecessor(int id) {
-        return null;
+    public Node findPredecessor(BigInteger id) {
+        Node pred = this;
+        BigInteger predId = pred.nodeId;
+        BigInteger succId = pred.findSuccessor().nodeId;
+        while(!Util.in(id, predId, succId)) {
+            pred = closestPrecedingFinger(id);
+            predId = pred.nodeId;
+            succId = pred.findSuccessor().nodeId;
+        }
+
+        return pred;
     }
 
-    public Node closestPrecedingFinger(int id) {
-        return null;
+    public Node closestPrecedingFinger(BigInteger id) {
+        for(int i=Chord.m-1; i>=0; --i) {
+            Finger f = fingerTable.get(i);
+            BigInteger fId = f.node.getNodeId();
+            if(Util.in(fId, nodeId, id)) {
+                return f.node;
+            }
+        }
+        return this;
     }
 
     public void join(Node n) {
