@@ -2,17 +2,35 @@ import java.util.ArrayList;
 import java.math.BigInteger;
 
 public class Node {
+    private static ArrayList<BigInteger> shift;
+    public static int m;
+
+    static {
+        m = 160;
+        shift = new ArrayList<>(m);
+        shift.set(0, BigInteger.ONE);
+        BigInteger TWO = new BigInteger("2", 10);
+        for(int i=1; i<m; ++i) {
+            shift.set(i, shift.get(i-1).multiply(TWO));
+        }
+    }
+
     private String nodeName;
     private BigInteger nodeId;
     private ArrayList<Finger> fingerTable;
     private Node pred;
 
     Node(String nodeName) {
-        this.nodeName = nodeName;
-        this.fingerTable = new ArrayList<>(Chord.m);
-
         String hash = Util.hash(nodeName);
+
+        this.nodeName = nodeName;        
         this.nodeId = new BigInteger(hash, 16);
+        this.fingerTable = new ArrayList<>(m);
+        
+        for(int i=0; i<m; ++i) {
+            fingerTable.set(i, new Finger());
+            fingerTable.get(i).start = nodeId.add(shift.get(i));
+        }
         // System.out.println(hash);
     }
 
@@ -43,7 +61,7 @@ public class Node {
     }
 
     public Node closestPrecedingFinger(BigInteger id) {
-        for(int i=Chord.m-1; i>=0; --i) {
+        for(int i=m-1; i>=0; --i) {
             Finger f = fingerTable.get(i);
             BigInteger fId = f.node.getNodeId();
             if(Util.in(fId, nodeId, id)) {
@@ -55,7 +73,7 @@ public class Node {
 
     public void join(Node n) {
         if(n == null) {
-            for(int i=0; i<Chord.m; ++i) {
+            for(int i=0; i<m; ++i) {
                 fingerTable.get(i).node = this;
             }
             pred = this;
@@ -68,7 +86,7 @@ public class Node {
     }
 
     private void initFingerTable(Node n) {
-
+        // fingerTable.get(0).node = n.findSuccessor()
     }
 
     private void updateOthers() {
