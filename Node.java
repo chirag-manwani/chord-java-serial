@@ -5,6 +5,7 @@ public class Node {
     private String nodeName;
     private BigInteger nodeId;
     private ArrayList<Finger> fingerTable;
+    private Node pred;
 
     Node(String nodeName) {
         this.nodeName = nodeName;
@@ -53,7 +54,17 @@ public class Node {
     }
 
     public void join(Node n) {
-
+        if(n == null) {
+            for(int i=0; i<Chord.m; ++i) {
+                fingerTable.get(i).node = this;
+            }
+            pred = this;
+        }
+        else {
+            initFingerTable(n);
+            updateOthers();
+            // moveKeys();
+        }
     }
 
     private void initFingerTable(Node n) {

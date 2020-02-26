@@ -14,6 +14,13 @@ public class Chord {
 
     public void addNode(String nodeName) {
         Node node = new Node(nodeName);
+
+        if(nodeList.size() == 0) {
+            node.join(null);
+        }
+        else {
+            node.join(nodeList.get(0));
+        }
         nodeList.add(node);
     }
 
