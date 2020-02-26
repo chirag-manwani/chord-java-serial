@@ -1,19 +1,20 @@
+import java.util.ArrayList;
+
 public class Chord {
     // Some list for maintaining nodes
     // Some debug options
     // lookup(id)
-    private int m;
+    public static int m;
+    private ArrayList<Node> nodeList;
 
     Chord() {
-
+        m = 160;
+        nodeList = new ArrayList<>();
     }
 
-    Chord(int m) {
-        this.m = m;
-    }
-
-    public void addNode() {
-
+    public void addNode(String nodeName) {
+        Node node = new Node(nodeName);
+        nodeList.add(node);
     }
 
     public void removeNode(int nodeId) {
