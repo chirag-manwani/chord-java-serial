@@ -1,17 +1,18 @@
+import java.math.BigInteger;
 import java.util.ArrayList;
 
 public class Chord {
     // Some list for maintaining nodes
     // Some debug options
     // lookup(id)
-    private ArrayList<Node> nodeList;
+    public ArrayList<Node> nodeList;
 
     Chord() {
         nodeList = new ArrayList<>();
     }
 
-    public void addNode(String nodeName) {
-        Node node = new Node(nodeName);
+    public void addNode(String nodeName, BigInteger i){
+        Node node = new Node(nodeName, i);
 
         if(nodeList.isEmpty()) {
             node.join(null);
