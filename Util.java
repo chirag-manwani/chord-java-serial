@@ -20,6 +20,23 @@ public class Util {
         }
     }
 
+    public static boolean in(BigInteger n, BigInteger l, BigInteger u, int type) {
+        boolean nEQu = (n.compareTo(u) == 0);
+        boolean nEQl = (n.compareTo(l) == 0);
+        boolean inRange = in(n, l, u);
+        switch(type) {
+            case 0:
+                return ((!nEQl) && (!nEQu) && inRange);
+            case 1:
+                return ((!nEQl) && inRange);
+            case 2:
+                return ((!nEQu) && inRange);
+            default:
+                return inRange;
+        }
+    }
+    
+    
     public static boolean in(BigInteger n, BigInteger l, BigInteger u) {
         if(l.compareTo(u) == 0 || l.compareTo(n) == 0 || u.compareTo(n) == 0) {
             return true;
