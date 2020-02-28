@@ -174,7 +174,6 @@ public class Node {
         }
     }
 
-
     public String find(String key) {
         if(map.containsKey(key)) {
             return map.get(key);
@@ -183,6 +182,11 @@ public class Node {
             return "Key not Found";
         }
     }
+
+    public void addKeyVal(String key, String val) {
+        map.put(key, val);
+    }
+
     /*
     * Getters and Setters
     */

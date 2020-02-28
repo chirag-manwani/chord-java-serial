@@ -42,17 +42,28 @@ public class Chord {
         removeNode(nr);
     }
 
+    public void addKeyVal(String key, String val) {
+        // BigInteger hash = new BigInteger(Util.hash(key), 16);
+        BigInteger id = new BigInteger(key, 10);
+        int idx = 0;
+        Node n = nodeList.get(idx);
+        ArrayList<Node> path = new ArrayList<>();
+        Node s = n.findSuccessor(id, path);
+        s.addKeyVal(key, val);
+    }
+
     public void lookup(String key) {
-        BigInteger id = new BigInteger(Util.hash(key), 16);
+        // BigInteger id = new BigInteger(Util.hash(key), 16);
+        BigInteger id = new BigInteger(key, 10);
         Node succ = lookup(id);
         String value = succ.find(key);
-        System.out.println(value);
+        System.out.println("Lookup(key) = " + value);
     }
 
     public Node lookup(BigInteger id) {
         ArrayList<Node> path = new ArrayList<>();
         // Use random idx
-        int idx = 0;
+        int idx = Util.getRandomNumberInRange(0, nodeList.size()-1);
         Node n = nodeList.get(idx);
         Node s = n.findSuccessor(id, path);
 

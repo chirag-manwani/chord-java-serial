@@ -15,19 +15,11 @@ public class Main {
             debug = true;
         }
         ArrayList<BigInteger> ids = new ArrayList<>();
-        ids.add(new BigInteger("0", 10));
-        ids.add(new BigInteger("1", 10));
-        ids.add(new BigInteger("2", 10));
-        ids.add(new BigInteger("3", 10));
         ids.add(new BigInteger("4", 10));
-        ids.add(new BigInteger("5", 10));
-        ids.add(new BigInteger("6", 10));
-        ids.add(new BigInteger("7", 10));
-        ids.add(new BigInteger("8", 10));
-        ids.add(new BigInteger("9", 10));
         ids.add(new BigInteger("10", 10));
         ids.add(new BigInteger("11", 10));
-        ids.add(new BigInteger("12", 10));
+        ids.add(new BigInteger("89", 10));
+        ids.add(new BigInteger("100", 10));
         for(int i=1; i<=numNodes; ++i) {
             String nodeName = "Node-" + i;
             System.out.println("Adding new node " + " " + ids.get(i-1));
@@ -37,6 +29,24 @@ public class Main {
             System.out.println("Routing Table for " + chord.nodeList.get(j-1).getNodeId());
             chord.nodeList.get(j-1).printFingerTable();
         }
+
+        chord.addKeyVal("0", "0");
+        chord.addKeyVal("10", "10");
+        chord.addKeyVal("9", "9");
+        chord.addKeyVal("11", "11");
+        chord.addKeyVal("59", "59");
+        chord.addKeyVal("69", "69");
+        chord.addKeyVal("100", "100");
+        chord.addKeyVal("101", "101");
+
+        chord.lookup("0");
+        chord.lookup("10");
+        chord.lookup("9");
+        chord.lookup("11");
+        chord.lookup("59");
+        chord.lookup("69");
+        chord.lookup("100");
+        chord.lookup("101");
 
         // Test Util.in() function
         // BigInteger n = new BigInteger("45", 10);
