@@ -1,5 +1,6 @@
-import java.util.ArrayList;
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Node {
     private static ArrayList<BigInteger> shift;
@@ -19,6 +20,7 @@ public class Node {
     private BigInteger nodeId;
     private ArrayList<Finger> fingerTable;
     private Node pred;
+    private HashMap<String, String> map;
 
     Node(String nodeName) {
         String hash = Util.hash(nodeName);
@@ -31,6 +33,7 @@ public class Node {
             fingerTable.add(new Finger());
             fingerTable.get(i).start = nodeId.add(shift.get(i)).mod(shift.get(m));
         }
+        map = new HashMap<>();
     }
 
     Node(String nodeName, BigInteger nodeId) {
@@ -40,14 +43,17 @@ public class Node {
             fingerTable.add(new Finger());
             fingerTable.get(i).start = nodeId.add(shift.get(i)).mod(shift.get(m));
         }
+        map = new HashMap<>();
     }
 
     public Node findSuccessor() {
         return fingerTable.get(0).node;
     }
 
-    public Node findSuccessor(BigInteger id) {
-        Node pred = findPredecessor(id);
+    public Node findSuccessor(BigInteger id, ArrayList<Node> path) {
+        path.add(this);
+        Node pred = findPredecessor(id, path);
+        path.add(pred.findSuccessor());
         return pred.findSuccessor();
     }
 
@@ -55,7 +61,7 @@ public class Node {
         return pred;
     }
 
-    public Node findPredecessor(BigInteger id) {
+    public Node findPredecessor(BigInteger id, ArrayList<Node> path) {
         Node pred = this;
         BigInteger predId = pred.nodeId;
         BigInteger succId = pred.findSuccessor().nodeId;
@@ -64,6 +70,7 @@ public class Node {
             pred = pred.closestPrecedingFinger(id);
             predId = pred.nodeId;
             succId = pred.findSuccessor().nodeId;
+            path.add(pred);
         }
         return pred;
     }
@@ -94,7 +101,9 @@ public class Node {
     }
 
     private void initFingerTable(Node n) {
-        fingerTable.get(0).node = n.findSuccessor(fingerTable.get(0).start);
+        // Path is a dummy variable here
+        ArrayList<Node> path = new ArrayList<>();
+        fingerTable.get(0).node = n.findSuccessor(fingerTable.get(0).start, path);
         pred = findSuccessor().pred;
         findSuccessor().pred = this;
         pred.fingerTable.get(0).node = this;
@@ -106,20 +115,19 @@ public class Node {
                 fingerTable.get(i).node = fingerTable.get(i-1).node;
             }
             else {
-                fingerTable.get(i).node = n.findSuccessor(fStart);
+                fingerTable.get(i).node = n.findSuccessor(fStart, path);
             }
         }
-        System.out.println("--------------------Newly added node --------------");
-        printFingerTable();
-        System.out.println("---------------------------------------------------");
     }
 
     private void updateOthers(Node n) {
+        // Path is a dummy variable here
+        ArrayList<Node> path = new ArrayList<>();
         for(int i=0; i<m; ++i) {
             BigInteger id = nodeId.subtract(shift.get(i)).mod(shift.get(m));
-            Node p = n.findSuccessor(id);
+            Node p = n.findSuccessor(id, path);
             if(id.compareTo(p.nodeId) != 0) {
-                p = n.findPredecessor(id);
+                p = n.findPredecessor(id, path);
             }
 
             if(p.nodeId.compareTo(nodeId) == 0) {
@@ -166,6 +174,15 @@ public class Node {
         }
     }
 
+
+    public String find(String key) {
+        if(map.containsKey(key)) {
+            return map.get(key);
+        }
+        else {
+            return "Key not Found";
+        }
+    }
     /*
     * Getters and Setters
     */
