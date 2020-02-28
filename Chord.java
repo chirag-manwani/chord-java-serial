@@ -1,34 +1,40 @@
 import java.math.BigInteger;
-import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Chord {
-    // Some list for maintaining nodes
-    // Some debug options
-    // lookup(id)
-    public ArrayList<Node> nodeList;
+    HashMap<String, Node> nodeMap;
 
     Chord() {
-        nodeList = new ArrayList<>();
+        nodeMap = new HashMap<>();
     }
 
     public void addNode(String nodeName, BigInteger i){
         Node node = new Node(nodeName, i);
 
-        if(nodeList.isEmpty()) {
+        if(nodeMap.isEmpty()) {
             node.join(null);
         }
         else {
-            node.join(nodeList.get(0));
+            node.join(nodeMap.get("Node-1"));
         }
-        nodeList.add(node);
+        nodeMap.put(nodeName, node);
     }
 
-    public void removeNode(int nodeId) {
+    public void removeNode(String nodeName) {
+        Node nr = nodeMap.get(nodeName);
+        Node s = nr.findSuccessor();
+        Node p = nr.findPredecessor();
+
+        s.moveKeys(nr, p.getNodeId().add(BigInteger.ONE), nr.getNodeId());
+
+        s.setPredecessor(p);
+        p.setSuccessor(s);
+
 
     }
 
     public void removeRandomNode() {
-        // generate nodeID 
+        // generate nodeID
         // Use removeNode(nodeID)
     }
 }

@@ -20,18 +20,17 @@ public class Main {
         ids.add(new BigInteger("11", 10));
         ids.add(new BigInteger("89", 10));
         ids.add(new BigInteger("100", 10));
-        for(int i=1; i<=ids.size(); ++i) {
+        for(int i=1; i<=numNodes; ++i) {
             String nodeName = "Node-" + i;
-            // chord.addNode(nodeName);
             System.out.println("Adding new node " + " " + ids.get(i-1));
             chord.addNode(nodeName, ids.get(i-1));
-            for(int j=0; j<i; ++j) {
-                System.out.println("Routing Table for " + chord.nodeList.get(j).getNodeId());
-                chord.nodeList.get(j).printFingerTable();
-            }
-            System.out.println("---------------------------------------------------------------");
         }
-        
+        for(int j=1; j<=chord.nodeMap.size(); ++j) {
+            String name = "Node-" + j;
+            System.out.println("Routing Table for " + chord.nodeMap.get(name).getNodeId());
+            chord.nodeMap.get(name).printFingerTable();
+        }
+
         // Test Util.in() function
         // BigInteger n = new BigInteger("45", 10);
         // BigInteger l = new BigInteger("0", 10);

@@ -51,6 +51,10 @@ public class Node {
         return pred.findSuccessor();
     }
 
+    public Node findPredecessor() {
+        return pred;
+    }
+
     public Node findPredecessor(BigInteger id) {
         Node pred = this;
         BigInteger predId = pred.nodeId;
@@ -85,7 +89,7 @@ public class Node {
         else {
             initFingerTable(n);
             updateOthers(n);
-            // moveKeys();
+            // moveKeys(from, l, u);
         }
     }
 
@@ -148,6 +152,11 @@ public class Node {
     *   Utility Functions
     */
 
+    public int moveKeys(Node from, BigInteger l, BigInteger u) {
+
+        return 0;
+    }
+
     public void printFingerTable() {
         System.out.println("\nRouting Table for " + nodeId);
         System.out.println("m\t\tstart\t\tNode");
@@ -166,5 +175,13 @@ public class Node {
 
     public BigInteger getNodeId() {
         return nodeId;
+    }
+
+    public void setSuccessor(Node succ) {
+        fingerTable.get(0).node = succ;
+    }
+
+    public void setPredecessor(Node pred) {
+        this.pred = pred;
     }
 }
