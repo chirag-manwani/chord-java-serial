@@ -109,15 +109,19 @@ public class Node {
                 fingerTable.get(i).node = n.findSuccessor(fStart);
             }
         }
-        // System.out.println("--------------------Newly added node --------------");
-        // printFingerTable();
-        // System.out.println("---------------------------------------------------");
+        System.out.println("--------------------Newly added node --------------");
+        printFingerTable();
+        System.out.println("---------------------------------------------------");
     }
 
     private void updateOthers(Node n) {
         for(int i=0; i<m; ++i) {
             BigInteger id = nodeId.subtract(shift.get(i)).mod(shift.get(m));
-            Node p = n.findPredecessor(id);
+            Node p = n.findSuccessor(id);
+            if(id.compareTo(p.nodeId) != 0) {
+                p = n.findPredecessor(id);
+            }
+
             if(p.nodeId.compareTo(nodeId) == 0) {
                 continue;
             }
@@ -130,9 +134,6 @@ public class Node {
 
         if(Util.in(s.nodeId, nodeId, fId, 2)) {
             fingerTable.get(i).node = s;
-            if(pred.nodeId.compareTo(s.nodeId) != 0) {
-                pred.updateFingerTable(s, i);
-            }
         }
     }
 

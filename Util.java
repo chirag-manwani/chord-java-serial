@@ -1,11 +1,11 @@
-import java.math.BigInteger; 
-import java.security.MessageDigest; 
-import java.security.NoSuchAlgorithmException; 
-  
-public class Util { 
-    public static String hash(String input) 
-    { 
-        try { 
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
+public class Util {
+    public static String hash(String input)
+    {
+        try {
             MessageDigest md = MessageDigest.getInstance("SHA-1");
             byte[] messageDigest = md.digest(input.getBytes());
             BigInteger no = new BigInteger(1, messageDigest);
@@ -35,8 +35,7 @@ public class Util {
                 return inRange;
         }
     }
-    
-    
+
     public static boolean in(BigInteger n, BigInteger l, BigInteger u) {
         if(l.compareTo(u) == 0 || l.compareTo(n) == 0 || u.compareTo(n) == 0) {
             return true;

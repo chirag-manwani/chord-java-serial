@@ -15,11 +15,19 @@ public class Main {
             debug = true;
         }
         ArrayList<BigInteger> ids = new ArrayList<>();
+        ids.add(new BigInteger("0", 10));
+        ids.add(new BigInteger("1", 10));
+        ids.add(new BigInteger("2", 10));
+        ids.add(new BigInteger("3", 10));
         ids.add(new BigInteger("4", 10));
+        ids.add(new BigInteger("5", 10));
+        ids.add(new BigInteger("6", 10));
+        ids.add(new BigInteger("7", 10));
+        ids.add(new BigInteger("8", 10));
+        ids.add(new BigInteger("9", 10));
         ids.add(new BigInteger("10", 10));
         ids.add(new BigInteger("11", 10));
-        ids.add(new BigInteger("89", 10));
-        ids.add(new BigInteger("100", 10));
+        ids.add(new BigInteger("12", 10));
         for(int i=1; i<=numNodes; ++i) {
             String nodeName = "Node-" + i;
             System.out.println("Adding new node " + " " + ids.get(i-1));
