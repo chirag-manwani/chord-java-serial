@@ -95,9 +95,20 @@ public class Node {
         }
         else {
             initFingerTable(n);
-            updateOthers(n);
-            // moveKeys(from, l, u);
+            updateOthers(n, false);
+            int numKeys = moveKeys(findSuccessor(),
+                                   nodeId,
+                                   findSuccessor().getNodeId().subtract(BigInteger.ONE));
+            System.out.println("Moving Keys when adding " + numKeys);
         }
+    }
+
+    public void leave(Node s) {
+        updateOthers(s, true);
+        int numKeys = s.moveKeys(this,
+                                 pred.nodeId.add(BigInteger.ONE),
+                                 nodeId);
+        // System.out.println("Moving Keys when adding " + numKeys);
     }
 
     private void initFingerTable(Node n) {
@@ -120,7 +131,7 @@ public class Node {
         }
     }
 
-    private void updateOthers(Node n) {
+    private void updateOthers(Node n, boolean delete) {
         // Path is a dummy variable here
         ArrayList<Node> path = new ArrayList<>();
         for(int i=0; i<m; ++i) {
@@ -130,18 +141,32 @@ public class Node {
                 p = n.findPredecessor(id, path);
             }
 
-            if(p.nodeId.compareTo(nodeId) == 0) {
-                continue;
+            if(delete) {
+                p.updateFingerTableDel(this, i);
             }
-            p.updateFingerTable(this, i);
+            else{
+                p.updateFingerTable(this, i);
+            }
         }
     }
 
     private void updateFingerTable(Node s, int i) {
         BigInteger fId = fingerTable.get(i).node.nodeId;
-
+        if(nodeId.compareTo(s.nodeId) == 0) {
+            return;
+        }
         if(Util.in(s.nodeId, nodeId, fId, 2)) {
             fingerTable.get(i).node = s;
+            pred.updateFingerTable(s, i);
+        }
+    }
+
+    private void updateFingerTableDel(Node s, int i) {
+        BigInteger fId = fingerTable.get(i).node.nodeId;
+
+        if(fId.compareTo(s.nodeId) == 0) {
+            fingerTable.get(i).node = s.findSuccessor();
+            pred.updateFingerTableDel(s, i);
         }
     }
 
@@ -162,8 +187,17 @@ public class Node {
     */
 
     public int moveKeys(Node from, BigInteger l, BigInteger u) {
-
-        return 0;
+        int numKeys = 0;
+        for(String key : from.map.keySet()) {
+            // BigInteger hash = new BigInteger(key, 16);
+            BigInteger hash = new BigInteger(key, 10);
+            if(Util.in(hash, l, u)) {
+                System.out.println("Moving " + key + " from " + from.nodeId + " to " + nodeId);
+                map.put(key, from.map.get(key));
+                ++numKeys;
+            }
+        }
+        return numKeys;
     }
 
     public void printFingerTable() {

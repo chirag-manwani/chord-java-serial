@@ -25,21 +25,19 @@ public class Chord {
         Node s = nr.findSuccessor();
         Node p = nr.findPredecessor();
 
-        s.moveKeys(nr, p.getNodeId().add(BigInteger.ONE), nr.getNodeId());
-
+        System.out.println("Removing " + nr.getNodeId());
+        nr.leave(s);
         s.setPredecessor(p);
         p.setSuccessor(s);
-
-
     }
 
     public void removeRandomNode() {
         // generate nodeID
         // Use random idx
-        int idx = 0;
+        int idx = Util.getRandomNumberInRange(0, nodeList.size()-1);
         Node nr = nodeList.get(idx);
-        nodeList.remove(idx);
         removeNode(nr);
+        nodeList.remove(idx);
     }
 
     public void addKeyVal(String key, String val) {
@@ -57,7 +55,7 @@ public class Chord {
         BigInteger id = new BigInteger(key, 10);
         Node succ = lookup(id);
         String value = succ.find(key);
-        System.out.println("Lookup(key) = " + value);
+        System.out.println(succ.getNodeId() + ".map[key] = " + value);
     }
 
     public Node lookup(BigInteger id) {
@@ -68,10 +66,11 @@ public class Chord {
         Node s = n.findSuccessor(id, path);
 
         System.out.print("Lookup " + id + " : ");
-        for(int i=0; i<path.size(); ++i) {
+        for(int i=0; i<path.size()-1; ++i) {
             Node pathNode = path.get(i);
             System.out.print(pathNode.getNodeId() + " -> ");
         }
+        System.out.println(path.get(path.size()-1).getNodeId());
         return s;
     }
 }
