@@ -97,8 +97,8 @@ public class Node {
             initFingerTable(n);
             updateOthers(n, false);
             int numKeys = moveKeys(findSuccessor(),
-                                   nodeId,
-                                   findSuccessor().getNodeId().subtract(BigInteger.ONE));
+                                   pred.nodeId,
+                                   nodeId);
             System.out.println("Moving Keys when adding " + numKeys);
         }
     }
@@ -106,7 +106,7 @@ public class Node {
     public void leave(Node s) {
         updateOthers(s, true);
         int numKeys = s.moveKeys(this,
-                                 pred.nodeId.add(BigInteger.ONE),
+                                 pred.nodeId,
                                  nodeId);
         // System.out.println("Moving Keys when adding " + numKeys);
     }
@@ -163,7 +163,9 @@ public class Node {
 
     private void updateFingerTableDel(Node s, int i) {
         BigInteger fId = fingerTable.get(i).node.nodeId;
-
+        if(nodeId.compareTo(s.nodeId) == 0) {
+            return;
+        }
         if(fId.compareTo(s.nodeId) == 0) {
             fingerTable.get(i).node = s.findSuccessor();
             pred.updateFingerTableDel(s, i);
@@ -188,15 +190,20 @@ public class Node {
 
     public int moveKeys(Node from, BigInteger l, BigInteger u) {
         int numKeys = 0;
+        HashMap<String, String> newMap = new HashMap<>();
         for(String key : from.map.keySet()) {
             // BigInteger hash = new BigInteger(key, 16);
             BigInteger hash = new BigInteger(key, 10);
-            if(Util.in(hash, l, u)) {
+            if(Util.in(hash, l, u, 1)) {
                 System.out.println("Moving " + key + " from " + from.nodeId + " to " + nodeId);
                 map.put(key, from.map.get(key));
                 ++numKeys;
             }
+            else {
+                newMap.put(key, from.map.get(key));
+            }
         }
+        from.map = newMap;
         return numKeys;
     }
 
@@ -218,6 +225,7 @@ public class Node {
     }
 
     public void addKeyVal(String key, String val) {
+        System.out.println("Adding " + key + " to " + nodeId);
         map.put(key, val);
     }
 

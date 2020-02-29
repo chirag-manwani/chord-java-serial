@@ -38,6 +38,7 @@ public class Chord {
         Node nr = nodeList.get(idx);
         removeNode(nr);
         nodeList.remove(idx);
+        System.out.println("Nodes in Chord " + nodeList.size());
     }
 
     public void addKeyVal(String key, String val) {

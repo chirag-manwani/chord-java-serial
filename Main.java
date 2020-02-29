@@ -20,15 +20,7 @@ public class Main {
         ids.add(new BigInteger("11", 10));
         ids.add(new BigInteger("89", 10));
         ids.add(new BigInteger("100", 10));
-
-        for(int i=1; i<=numNodes; ++i) {
-            String nodeName = "Node-" + i;
-            chord.addNode(nodeName, ids.get(i-1));
-        }
-        for(int j=1; j<=chord.nodeList.size(); ++j) {
-            chord.nodeList.get(j-1).printFingerTable();
-        }
-
+        chord.addNode("Node-1", ids.get(0));
         chord.addKeyVal("0", "0");
         chord.addKeyVal("10", "10");
         chord.addKeyVal("9", "9");
@@ -37,6 +29,23 @@ public class Main {
         chord.addKeyVal("69", "69");
         chord.addKeyVal("100", "100");
         chord.addKeyVal("101", "101");
+
+        for(int i=2; i<=numNodes; ++i) {
+            String nodeName = "Node-" + i;
+            chord.addNode(nodeName, ids.get(i-1));
+        }
+        for(int j=1; j<=chord.nodeList.size(); ++j) {
+            chord.nodeList.get(j-1).printFingerTable();
+        }
+
+        // chord.addKeyVal("0", "0");
+        // chord.addKeyVal("10", "10");
+        // chord.addKeyVal("9", "9");
+        // chord.addKeyVal("11", "11");
+        // chord.addKeyVal("59", "59");
+        // chord.addKeyVal("69", "69");
+        // chord.addKeyVal("100", "100");
+        // chord.addKeyVal("101", "101");
 
         chord.lookup("0");
         chord.lookup("10");
@@ -48,6 +57,9 @@ public class Main {
         chord.lookup("101");
 
         chord.removeRandomNode();
-
+        chord.removeRandomNode();
+        chord.removeRandomNode();
+        chord.removeRandomNode();
+        // chord.lookup("11");
     }
 }
