@@ -67,7 +67,11 @@ public class Node {
         BigInteger succId = pred.findSuccessor().nodeId;
 
         while(!Util.in(id, predId, succId, 1)) {
-            pred = pred.closestPrecedingFinger(id);
+            Node temp = pred.closestPrecedingFinger(id);
+            if(temp.nodeId.compareTo(predId) == 0) {
+                return pred;
+            }
+            pred = temp;
             predId = pred.nodeId;
             succId = pred.findSuccessor().nodeId;
             path.add(pred);

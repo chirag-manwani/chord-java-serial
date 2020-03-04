@@ -21,6 +21,8 @@ public class Main {
         ids.add(new BigInteger("89", 10));
         ids.add(new BigInteger("100", 10));
         chord.addNode("Node-1", ids.get(0));
+        // chord.addNode("Node-2", new BigInteger("1", 10));
+        chord.addKeyVal("4", "4");
         chord.addKeyVal("0", "0");
         chord.addKeyVal("10", "10");
         chord.addKeyVal("9", "9");
@@ -61,5 +63,7 @@ public class Main {
         chord.removeRandomNode();
         chord.removeRandomNode();
         // chord.lookup("11");
+        BigInteger b = new BigInteger("4", 10);
+        System.out.println("OUTPUT " + Util.in(b, b, b, 1));
     }
 }
