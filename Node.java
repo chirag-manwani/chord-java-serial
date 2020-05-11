@@ -7,7 +7,7 @@ public class Node {
     public static int m;
 
     static {
-        m = 7;
+        m = 128;
         shift = new ArrayList<>();
         shift.add(BigInteger.ONE);
         BigInteger TWO = new BigInteger("2", 10);
@@ -103,7 +103,7 @@ public class Node {
             int numKeys = moveKeys(findSuccessor(),
                                    pred.nodeId,
                                    nodeId);
-            System.out.println("Moving Keys when adding " + numKeys);
+            // System.out.println("Moving Keys when adding " + numKeys);
         }
     }
 
@@ -196,8 +196,8 @@ public class Node {
         int numKeys = 0;
         HashMap<String, String> newMap = new HashMap<>();
         for(String key : from.map.keySet()) {
-            // BigInteger hash = new BigInteger(key, 16);
-            BigInteger hash = new BigInteger(key, 10);
+            BigInteger hash = new BigInteger(key, 16);
+            // BigInteger hash = new BigInteger(key, 10);
             if(Util.in(hash, l, u, 1)) {
                 System.out.println("Moving " + key + " from " + from.nodeId + " to " + nodeId);
                 map.put(key, from.map.get(key));
@@ -229,7 +229,7 @@ public class Node {
     }
 
     public void addKeyVal(String key, String val) {
-        System.out.println("Adding " + key + " to " + nodeId);
+        // System.out.println("Adding " + key + " to " + nodeId);
         map.put(key, val);
     }
 

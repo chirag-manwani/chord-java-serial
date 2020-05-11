@@ -8,9 +8,9 @@ public class Chord {
         nodeList = new ArrayList<>();
     }
 
-    public void addNode(String nodeName, BigInteger i){
-        Node node = new Node(nodeName, i);
-
+    public void addNode(String nodeName){
+        Node node = new Node(nodeName);
+        System.out.println(node.getNodeId());
         if(nodeList.isEmpty()) {
             node.join(null);
         }
@@ -42,8 +42,8 @@ public class Chord {
     }
 
     public void addKeyVal(String key, String val) {
-        // BigInteger hash = new BigInteger(Util.hash(key), 16);
-        BigInteger id = new BigInteger(key, 10);
+        BigInteger id = new BigInteger(Util.hash(key), 16);
+        // BigInteger id = new BigInteger(key, 10);
         int idx = 0;
         Node n = nodeList.get(idx);
         ArrayList<Node> path = new ArrayList<>();
@@ -52,8 +52,8 @@ public class Chord {
     }
 
     public void lookup(String key) {
-        // BigInteger id = new BigInteger(Util.hash(key), 16);
-        BigInteger id = new BigInteger(key, 10);
+        BigInteger id = new BigInteger(Util.hash(key), 16);
+        // BigInteger id = new BigInteger(key, 10);
         Node succ = lookup(id);
         String value = succ.find(key);
         System.out.println(succ.getNodeId() + ".map[key] = " + value);
